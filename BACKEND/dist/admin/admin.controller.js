@@ -15,47 +15,44 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminController = void 0;
 const common_1 = require("@nestjs/common");
 const admin_service_1 = require("./admin.service");
-const admin_jwt_guard_1 = require("./guards/admin-jwt.guard");
 let AdminController = class AdminController {
     adminService;
     constructor(adminService) {
         this.adminService = adminService;
     }
-    getPendingSellers() {
+    getPending() {
         return this.adminService.getPendingSellers();
     }
-    approveSeller(id) {
+    approve(id) {
         return this.adminService.approveSeller(id);
     }
-    rejectSeller(id, reason) {
-        return this.adminService.rejectSeller(id, reason);
+    reject(id) {
+        return this.adminService.rejectSeller(id);
     }
 };
 exports.AdminController = AdminController;
 __decorate([
-    (0, common_1.Get)('sellers/pending'),
+    (0, common_1.Get)('pending'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
-], AdminController.prototype, "getPendingSellers", null);
+], AdminController.prototype, "getPending", null);
 __decorate([
-    (0, common_1.Patch)('sellers/:id/approve'),
+    (0, common_1.Patch)('approve/:id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], AdminController.prototype, "approveSeller", null);
+], AdminController.prototype, "approve", null);
 __decorate([
-    (0, common_1.Patch)('sellers/:id/reject'),
+    (0, common_1.Patch)('reject/:id'),
     __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)('reason')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], AdminController.prototype, "rejectSeller", null);
+], AdminController.prototype, "reject", null);
 exports.AdminController = AdminController = __decorate([
     (0, common_1.Controller)('admin'),
-    (0, common_1.UseGuards)(admin_jwt_guard_1.AdminJwtGuard),
     __metadata("design:paramtypes", [admin_service_1.AdminService])
 ], AdminController);
 //# sourceMappingURL=admin.controller.js.map

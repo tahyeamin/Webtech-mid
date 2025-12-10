@@ -38,47 +38,53 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MailService = void 0;
 const common_1 = require("@nestjs/common");
+const config_1 = require("@nestjs/config");
 const nodemailer = __importStar(require("nodemailer"));
 let MailService = class MailService {
-    transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS,
-        },
-    });
+    configService;
+    transporter;
+    constructor(configService) {
+        this.configService = configService;
+        const user = this.configService.get('EMAIL_USER');
+        const pass = this.configService.get('EMAIL_PASS');
+        console.log('Email User:', user);
+        console.log('Email Pass:', pass ? '***exists***' : 'MISSING');
+        this.transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false,
+            auth: {
+                user: 'tyeamin79@gmail.com',
+                pass: 'quyfuifimncigznd',
+            },
+        });
+    }
     async sendApprovalMail(email, name, shopName) {
         await this.transporter.sendMail({
             from: '"E-Shop" <no-reply@eshop.com>',
             to: email,
-            subject: '🎉 Your Shop is Approved!',
-            html: `
-        <h2>Congratulations ${name}!</h2>
-        <p>Your shop <strong>${shopName}</strong> has been approved.</p>
-        <p>You can now add products and start selling!</p>
-        <p>Thank you for joining us!</p>
-      `,
+            subject: 'Your Shop is Approved!',
+            html: `<h2>Congratulations ${name}!</h2><p>Your shop <strong>${shopName}</strong> has been approved!</p>`,
         });
     }
     async sendRejectionMail(email, name, reason) {
         await this.transporter.sendMail({
             from: '"E-Shop" <no-reply@eshop.com>',
             to: email,
-            subject: 'Sorry, Your Shop Was Rejected',
-            html: `
-        <h2>Hi ${name},</h2>
-        <p>Your shop registration was rejected.</p>
-        <p><strong>Reason:</strong> ${reason || 'Not specified'}</p>
-        <p>Please fix the issues and try again.</p>
-      `,
+            subject: 'Shop Registration Rejected',
+            html: `<h2>Sorry ${name}</h2><p>Reason: ${reason}</p>`,
         });
     }
 };
 exports.MailService = MailService;
 exports.MailService = MailService = __decorate([
-    (0, common_1.Injectable)()
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [config_1.ConfigService])
 ], MailService);
 //# sourceMappingURL=mail.service.js.map

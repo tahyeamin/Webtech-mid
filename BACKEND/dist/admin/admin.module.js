@@ -18,9 +18,14 @@ let AdminModule = class AdminModule {
 exports.AdminModule = AdminModule;
 exports.AdminModule = AdminModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([seller_entity_1.Seller])],
+        imports: [
+            typeorm_1.TypeOrmModule.forFeature([seller_entity_1.Seller]),
+        ],
         controllers: [admin_controller_1.AdminController],
-        providers: [admin_service_1.AdminService, mail_service_1.MailService],
+        providers: [
+            admin_service_1.AdminService,
+            mail_service_1.MailService,
+        ],
     })
 ], AdminModule);
 //# sourceMappingURL=admin.module.js.map

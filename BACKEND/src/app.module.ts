@@ -32,6 +32,7 @@ import { Wallet } from './seller/entities/wallet.entity';
 
     AdminModule,
     SellerModule,
+    
   ],
 })
 export class AppModule { }

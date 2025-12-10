@@ -28,27 +28,42 @@ let AdminService = class AdminService {
     async getPendingSellers() {
         return this.sellerRepo.find({
             where: { status: seller_entity_1.SellerStatus.PENDING },
-            select: ['id', 'fullName', 'email', 'phone', 'shopName'],
+            select: ['id', 'fullName', 'email', 'phone', 'shopName', 'createdAt'],
+            order: { createdAt: 'DESC' },
         });
     }
     async approveSeller(id) {
         const seller = await this.sellerRepo.findOne({ where: { id } });
         if (!seller)
-            throw new common_1.NotFoundException();
+            throw new common_1.NotFoundException('Seller not found');
         seller.status = seller_entity_1.SellerStatus.APPROVED;
         await this.sellerRepo.save(seller);
-        await this.mailService.sendApprovalMail(seller.email, seller.fullName, seller.shopName || 'Your Shop');
-        return { message: 'Approved & email sent' };
+        console.log('Sending approval email to:', seller.email);
+        try {
+            await this.mailService.sendApprovalMail(seller.email, seller.fullName, seller.shopName || 'Your Shop');
+            console.log('Approval email sent successfully!');
+        }
+        catch (error) {
+            console.error('Email failed:', error.message);
+        }
+        return { message: 'Seller approved & email sent' };
     }
     async rejectSeller(id, reason) {
         const seller = await this.sellerRepo.findOne({ where: { id } });
         if (!seller)
-            throw new common_1.NotFoundException();
+            throw new common_1.NotFoundException('Seller not found');
         seller.status = seller_entity_1.SellerStatus.REJECTED;
-        seller.rejectedReason = reason || 'No reason';
+        seller.rejectedReason = reason || 'No reason provided';
         await this.sellerRepo.save(seller);
-        await this.mailService.sendRejectionMail(seller.email, seller.fullName, reason || 'No reason');
-        return { message: 'Rejected & email sent' };
+        console.log('Sending rejection email to:', seller.email);
+        try {
+            await this.mailService.sendRejectionMail(seller.email, seller.fullName, reason || 'No reason provided');
+            console.log('Rejection email sent!');
+        }
+        catch (error) {
+            console.error('Email failed:', error.message);
+        }
+        return { message: 'Seller rejected & email sent' };
     }
 };
 exports.AdminService = AdminService;
