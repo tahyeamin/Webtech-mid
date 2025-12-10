@@ -1,13 +1,4 @@
-// src/seller/entities/product.entity.ts
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  JoinColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import {Entity,PrimaryGeneratedColumn, Column,ManyToOne,JoinColumn,CreateDateColumn,UpdateDateColumn,} from 'typeorm';
 import { Seller } from './seller.entity';
 
 @Entity('products')
@@ -30,7 +21,7 @@ export class Product {
   @Column({ nullable: true })
   imageUrl?: string;
 
-  // Relation: একটা প্রোডাক্টের একটা সেলার
+ 
   @ManyToOne(() => Seller, (seller) => seller.products, {
     onDelete: 'CASCADE',
   })

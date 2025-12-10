@@ -14,7 +14,7 @@ const common_1 = require("@nestjs/common");
 let AppController = class AppController {
     getHome() {
         return {
-            message: '🚀 Welcome to the E-Commerce API (Admin Section Ready)',
+            message: 'Welcome to the E-Commerce API (Admin Section Ready)',
             availableRoutes: {
                 admin: '/admin',
             },

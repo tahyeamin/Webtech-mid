@@ -1,4 +1,3 @@
-// src/seller/entities/wallet.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
 import { Seller } from './seller.entity';
 

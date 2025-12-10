@@ -65,7 +65,7 @@ private mailService: MailService,
   let wallet = await this.walletRepo.findOne({ where: { sellerId } });
   
   if (!wallet) {
-    // প্রথমবার ওয়ালেট তৈরি করবে
+    
     wallet = this.walletRepo.create({ sellerId, balance: 0 });
     return this.walletRepo.save(wallet);
   }

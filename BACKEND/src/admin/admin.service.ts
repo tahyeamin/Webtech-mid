@@ -1,6 +1,3 @@
-// src/admin/admin.service.ts
-// ← এই একটা ফাইলেই সব আছে – কপি-পেস্ট করে রাখো
-
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -12,10 +9,10 @@ export class AdminService {
   constructor(
     @InjectRepository(Seller)
     private sellerRepo: Repository<Seller>,
-    private mailService: MailService, // ← তোমার Seller পার্টের মেইলার
+    private mailService: MailService, 
   ) {}
 
-  // সব PENDING সেলার দেখাবে
+
   async getPendingSellers() {
     return this.sellerRepo.find({
       where: { status: SellerStatus.PENDING },
@@ -24,7 +21,6 @@ export class AdminService {
     });
   }
 
-  // APPROVE করবে + মেইল পাঠাবে
   async approveSeller(id: string) {
     const seller = await this.sellerRepo.findOne({ where: { id } });
     if (!seller) throw new NotFoundException('Seller not found');
@@ -32,7 +28,7 @@ export class AdminService {
     seller.status = SellerStatus.APPROVED;
     await this.sellerRepo.save(seller);
 
-    console.log('Sending approval email to:', seller.email); // টেস্টের জন্য
+    console.log('Sending approval email to:', seller.email); 
 
     try {
       await this.mailService.sendApprovalMail(
@@ -48,7 +44,7 @@ export class AdminService {
     return { message: 'Seller approved & email sent' };
   }
 
-  // REJECT করবে + মেইল পাঠাবে
+ 
   async rejectSeller(id: string, reason?: string) {
     const seller = await this.sellerRepo.findOne({ where: { id } });
     if (!seller) throw new NotFoundException('Seller not found');
@@ -57,7 +53,7 @@ export class AdminService {
     seller.rejectedReason = reason || 'No reason provided';
     await this.sellerRepo.save(seller);
 
-    console.log('Sending rejection email to:', seller.email); // টেস্টের জন্য
+    console.log('Sending rejection email to:', seller.email); 
 
     try {
       await this.mailService.sendRejectionMail(
