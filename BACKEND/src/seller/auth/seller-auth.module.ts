@@ -5,7 +5,7 @@ import { SellerAuthService } from './seller-auth.service';
 import { SellerJwtStrategy } from './seller-jwt.strategy';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Seller } from '../entities/seller.entity';
-
+//modules
 @Module({
   imports: [
     TypeOrmModule.forFeature([Seller]),
