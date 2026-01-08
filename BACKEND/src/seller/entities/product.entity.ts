@@ -1,4 +1,4 @@
-import {Entity,PrimaryGeneratedColumn, Column,ManyToOne,JoinColumn,CreateDateColumn,UpdateDateColumn,} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, } from 'typeorm';
 import { Seller } from './seller.entity';
 
 @Entity('products')
@@ -6,6 +6,7 @@ export class Product {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  //store name
   @Column()
   name: string;
 
@@ -21,7 +22,7 @@ export class Product {
   @Column({ nullable: true })
   imageUrl?: string;
 
- 
+
   @ManyToOne(() => Seller, (seller) => seller.products, {
     onDelete: 'CASCADE',
   })
